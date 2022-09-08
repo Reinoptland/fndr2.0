@@ -22,9 +22,6 @@ const FilterNav = ({ children, variant, ...props }) => {
     color: darkTheme ? "white" : "grey",
   };
 
-  const COLOR_BUTTON = {
-    color: darkTheme ? "white" : "var(--dark-blue)",
-  };
   return (
     <>
       <div className={styles.container}>
@@ -36,7 +33,7 @@ const FilterNav = ({ children, variant, ...props }) => {
             placeholder="Filter by location..."
             variant="secondary"
           />
-          <Button variant="filterOption" size="mediumPlus" style={COLOR_BUTTON}>
+          <Button variant="filterOption" size="mediumPlus" theme={darkTheme}>
             <FiFilter className={styles.filterPic} /> More Options
           </Button>
           <Button variant="primary" size="small">
