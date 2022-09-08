@@ -1,0 +1,39 @@
+.mobile {
+  border: none;
+  font-size: 1rem;
+  font-family: var(--font-Kumbh);
+  line-height: 1.24em;
+  width: 201px;
+  background-color: transparent;
+}
+
+@media screen and (max-width: 280px) {
+  .mobile {
+    width: 120px;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .primary {
+    background-color: transparent;
+    border: none;
+    height: 80px;
+    border-right: 1px solid grey;
+  }
+
+  .secondary {
+    background-color: transparent;
+    border: none;
+    height: 80px;
+    border-right: 1px solid grey;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .primary {
+    width: clamp(250px, 35.15%, 391px);
+  }
+  .secondary {
+    width: clamp(200px, 25%, 300px);
+  }
+}

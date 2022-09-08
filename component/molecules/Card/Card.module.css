@@ -1,0 +1,43 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 49px;
+  margin: 57px 24px 32px 24px;
+  /* border: 1px solid red; */
+}
+
+.card {
+  border-radius: 6px;
+}
+
+@media screen and (min-width: 630px) {
+  .cardContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 11px;
+    margin: 70px 40px 56px 40px;
+
+    /* justify-content: space-between; */
+  }
+
+  .card {
+    width: clamp(220px, 49%, 340px);
+    /* width: 339px; */
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .cardContainer {
+    /* margin: 105px 11.4% 56px 11.4%; */
+    column-gap: 2.7%;
+    margin-top: 105px;
+    margin-bottom: 56px;
+    margin-right: 11.4%;
+    margin-left: 11.4%;
+  }
+
+  .card {
+    width: clamp(300px, 31.5%, 400px);
+  }
+}

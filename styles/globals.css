@@ -1,26 +1,23 @@
 html,
 body {
+  /* background-color: #121721; */
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+:root {
+  --violet: #5964e0;
+  --light-violet: #939bf4;
+  --dark-blue: #19202d;
+  --midnight: #121721;
+  --light-grey: #979797;
+  --grey: #9daec2;
+  --dark-grey: #6e8098;
+  --font-Kumbh: "Kumbh Sans", "sans-serif";
 }

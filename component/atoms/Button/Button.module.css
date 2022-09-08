@@ -1,0 +1,118 @@
+.default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-family: var(--font-Kumbh);
+  border: none;
+  font-size: 1rem;
+  line-height: 1.24em;
+}
+
+.default:hover {
+  cursor: pointer;
+}
+/* size */
+
+.small {
+  width: 48px;
+  height: 48px;
+}
+
+.medium {
+  width: 147px;
+
+  height: 48px;
+}
+
+.large {
+  width: 74%;
+  /* width: 279px; */
+  height: 48px;
+}
+
+.xlLarge {
+  width: 87%;
+  /* width: 327px; */
+  height: 48px;
+}
+
+/* Margin */
+
+/* color */ /* light mode */
+
+.primary {
+  background-color: var(--violet);
+  color: white;
+}
+
+.primary:hover {
+  background-color: var(--light-violet);
+}
+
+.secondary {
+  background-color: var(--violet);
+  opacity: 0.1;
+  color: var(--violet);
+}
+
+.secondary:hover {
+  opacity: 0.35;
+}
+
+.filterOption {
+  background-color: transparent;
+  /* border: 1px solid red; */
+
+  font-weight: 700;
+  margin-right: 5px;
+  width: 100px;
+}
+
+.fitContent {
+  border: none;
+  background-color: transparent;
+}
+
+/* color */ /* dark mode */
+
+.dark {
+  background-color: white;
+  opacity: 0.1;
+  color: white;
+}
+
+.dark:hover {
+  opacity: 0.35;
+}
+
+/* tablet */
+
+@media screen and (min-width: 500px) {
+  .small {
+    width: 80px;
+  }
+
+  .medium {
+    width: 141px;
+  }
+  .mediumPlus {
+    width: 180px;
+  }
+}
+
+/* desktop */
+
+@media screen and (min-width: 1000px) {
+  .small {
+    width: 123px;
+  }
+
+  .mg-r-l {
+    margin: 0 45% 0 45%;
+  }
+
+  .filterOption {
+    margin-right: clamp(26px, 2%, 40px);
+  }
+}
