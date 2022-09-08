@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Card.module.css";
 import { InfoCard, Image, Button } from "../../atoms";
-import { dataSet } from "../../../data/data";
 import { useTheme } from "../../../Context/ThemeProvider/ThemeProvider";
+import { useData } from "../../../Context/FilterProvider/FilterProvider";
 
 const Card = (props) => {
   const darkTheme = useTheme();
@@ -12,10 +12,12 @@ const Card = (props) => {
     backgroundColor: darkTheme ? "var(--dark-blue)" : "white",
   };
 
+  const data = useData();
+
   return (
     <>
       <div className={styles.cardContainer}>
-        {dataSet.agencies.map((el, idx) => {
+        {data.agencies.map((el, idx) => {
           if (idx < 20) {
             return (
               <div key={el.name} className={styles.card} style={CARD_STYLE}>

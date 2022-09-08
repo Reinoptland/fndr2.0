@@ -39,6 +39,10 @@
 
 /* Margin */
 
+.mg-r-l {
+  margin: 0 31% 0 31%;
+}
+
 /* color */ /* light mode */
 
 .primary {
@@ -98,6 +102,10 @@
   }
   .mediumPlus {
     width: 180px;
+  }
+
+  .mg-r-l {
+    margin: 0 42%;
   }
 }
 

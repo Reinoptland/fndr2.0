@@ -2,9 +2,8 @@ import styles from "../styles/Home.module.css";
 import Head from "next/head";
 import { Button, Toggle } from "../component/atoms";
 import { FilterNav, Header } from "../component/molecules";
-import ThemeProvider, {
-  useTheme,
-} from "../Context/ThemeProvider/ThemeProvider";
+import FilterProvider from "../Context/FilterProvider/FilterProvider";
+import { useTheme } from "../Context/ThemeProvider/ThemeProvider";
 import { useEffect, useState } from "react";
 import Card from "../component/molecules/Card/Card";
 
@@ -22,8 +21,10 @@ export default function Home() {
       </Head>
 
       <Header />
-      <FilterNav />
-      <Card />
+      <FilterProvider>
+        <FilterNav />
+        <Card />
+      </FilterProvider>
       <Button variant="primary" size="medium" margin="mg-r-l">
         Load More
       </Button>
