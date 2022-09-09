@@ -7,3 +7,4 @@ export { default as Paragraph } from "../atoms/Text/Paragraph/Paragraph";
 export { default as SubTitle } from "../atoms/Text/SubTitle/SubTitle";
 export { default as Title } from "../atoms/Text/Title/Title";
 export { default as Image } from "../atoms/Image/Image";
+export { default as RadioCheckbox } from "../atoms/RadioCheckbox/RadioCheckbox";

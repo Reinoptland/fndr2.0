@@ -6,6 +6,7 @@ import FilterProvider from "../Context/FilterProvider/FilterProvider";
 import { useTheme } from "../Context/ThemeProvider/ThemeProvider";
 import { useEffect, useState } from "react";
 import Card from "../component/molecules/Card/Card";
+import ModalProvider from "../Context/ModalProvider/ModalProvider";
 
 export default function Home() {
   const darkTheme = useTheme();
@@ -21,8 +22,11 @@ export default function Home() {
       </Head>
 
       <Header />
+
       <FilterProvider>
-        <FilterNav />
+        <ModalProvider>
+          <FilterNav />
+        </ModalProvider>
         <Card />
       </FilterProvider>
       <Button variant="primary" size="medium" margin="mg-r-l">

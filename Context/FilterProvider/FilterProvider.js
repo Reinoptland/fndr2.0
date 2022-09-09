@@ -16,6 +16,7 @@ function FilterProvider({ children }) {
   const [listing, setListing] = useState(dataSet);
   const [keywords, setKeywords] = useState({});
   const [topics, setTopics] = useState([]);
+  const [isChecked, setIsChecked] = useState();
 
   function getFilterCommand(keyword, id) {
     setKeywords((current) => {
@@ -36,12 +37,50 @@ function FilterProvider({ children }) {
     setTopics(copy);
   }
 
+  function handleCheckbox(value, id, boolean) {
+    let keywordsCopy = { ...keywords };
+    if (!boolean) {
+      if (!keywordsCopy[id]) {
+        setTopics((current) => {
+          if (!current.includes(id)) return [...current, id];
+          else return current;
+        });
+
+        keywordsCopy[id] = [];
+        keywordsCopy[id].push(value);
+        setKeywords(keywordsCopy);
+      }
+      if (!keywordsCopy[id].includes(value)) {
+        keywordsCopy[id].push(value);
+        setKeywords(keywordsCopy);
+      }
+    } else if (boolean) {
+      let arr = [...keywordsCopy[id]];
+      let index = arr.findIndex((el) => el == value);
+      arr.splice(index, 1);
+      setKeywords((current) => {
+        return { ...current, [id]: arr };
+      });
+      if (arr.length == 0) {
+        let copy = [...topics];
+        let index = copy.findIndex((el) => el == id);
+        copy.splice(index, 1);
+        setTopics(copy);
+      }
+      //   console.log(arr);
+    }
+    // } else {
+    //   console.log("is it?");
+
+    // }
+  }
+
   function submitFilterInput() {
     const copy = { ...listing };
 
     if (topics.join("") === "city") {
       const res = copy.agencies.filter((el, idx) => el.city === keywords.city);
-      console.log(res);
+
       setListing({ agencies: res });
     }
 
@@ -50,6 +89,34 @@ function FilterProvider({ children }) {
 
       setListing({ agencies: res });
     }
+    let count = 0;
+    if (topics.join("") === "size") {
+      let test1 = [];
+      const res = copy.agencies.filter((agency, idx) => {
+        let test = keywords.size.map((key) => {
+          if (key == agency.companySize) {
+            count++;
+            console.log(
+              key == agency.companySize,
+              key,
+              agency.companySize,
+              count
+            );
+            // agency.companySize == key;
+            test1.push(agency);
+          }
+        });
+        // console.log(test);
+        // return test;
+      });
+      console.log(test1);
+      console.log(res);
+      //   const res = copy.agencies.filter(
+      //     (el, idx) => el.companySize === keywords.size[0]
+      //   );
+
+      setListing({ agencies: test1 });
+    }
 
     if (topics.includes("city") && topics.includes("name")) {
       const res = copy.agencies.filter((el, idx) => {
@@ -57,7 +124,15 @@ function FilterProvider({ children }) {
           return el;
         }
       });
+      setListing({ agencies: res });
+    }
 
+    if (topics.includes("city") && topics.includes("size")) {
+      const res = copy.agencies.filter((el, idx) => {
+        if (el.companySize === keywords.size && el.city === keywords.city) {
+          return el;
+        }
+      });
       setListing({ agencies: res });
     }
 
@@ -68,7 +143,12 @@ function FilterProvider({ children }) {
   return (
     <FilterContext.Provider value={listing}>
       <FilterUpdateContext.Provider
-        value={{ submitFilterInput, getFilterCommand, deleteTopic }}
+        value={{
+          submitFilterInput,
+          getFilterCommand,
+          deleteTopic,
+          handleCheckbox,
+        }}
       >
         {children}
       </FilterUpdateContext.Provider>

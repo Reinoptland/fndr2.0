@@ -40,7 +40,10 @@
 /* Margin */
 
 .mg-r-l {
-  margin: 0 31% 0 31%;
+  margin: 0 31%;
+}
+.mgModal-r-l {
+  margin: 0 27%;
 }
 
 /* color */ /* light mode */
