@@ -1,0 +1,13 @@
+.paginationButton {
+  display: none;
+}
+
+@media screen and (min-width: 500px) {
+  .loadmore {
+    display: none;
+  }
+  .paginationButton {
+    display: flex;
+    column-gap: 20px;
+  }
+}

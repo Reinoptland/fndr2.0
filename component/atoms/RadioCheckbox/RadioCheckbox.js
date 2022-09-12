@@ -16,7 +16,6 @@ const RadioCheckbox = ({ id, value, ...props }) => {
     <div className={styles.radioContainer}>
       <input
         {...props}
-        type="checkbox"
         id={id}
         value={value}
         onChange={changeCheckboxState}

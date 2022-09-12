@@ -7,6 +7,8 @@ import { useTheme } from "../Context/ThemeProvider/ThemeProvider";
 import { useEffect, useState } from "react";
 import Card from "../component/molecules/Card/Card";
 import ModalProvider from "../Context/ModalProvider/ModalProvider";
+import PaginationProvider from "../Context/PaginationProvider/PaginationProvider";
+import { ContentResult } from "../component/organism";
 
 export default function Home() {
   const darkTheme = useTheme();
@@ -27,11 +29,11 @@ export default function Home() {
         <ModalProvider>
           <FilterNav />
         </ModalProvider>
-        <Card />
+        <PaginationProvider>
+          <ContentResult />
+        </PaginationProvider>
       </FilterProvider>
-      <Button variant="primary" size="medium" margin="mg-r-l">
-        Load More
-      </Button>
+      <div className={styles.paginationButton}></div>
     </div>
   );
 }

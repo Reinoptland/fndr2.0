@@ -16,14 +16,14 @@ function FilterProvider({ children }) {
   const [listing, setListing] = useState(dataSet);
   const [keywords, setKeywords] = useState({});
   const [topics, setTopics] = useState([]);
-  const [isChecked, setIsChecked] = useState();
+  //   const [isChecked, setIsChecked] = useState();
 
-  function getFilterCommand(keyword, id) {
+  function getFilterCommand(keyword, topic) {
     setKeywords((current) => {
-      return { ...current, [id]: keyword };
+      return { ...current, [topic]: keyword };
     });
     setTopics((current) => {
-      if (!current.includes(id)) return current.push(id);
+      if (!current.includes(topic)) return current.push(topic);
       else return current;
     });
     setListing(dataSet);
@@ -37,33 +37,33 @@ function FilterProvider({ children }) {
     setTopics(copy);
   }
 
-  function handleCheckbox(value, id, boolean) {
+  function handleCheckbox(value, topic, boolean) {
     let keywordsCopy = { ...keywords };
     if (!boolean) {
-      if (!keywordsCopy[id]) {
+      if (!keywordsCopy[topic]) {
         setTopics((current) => {
-          if (!current.includes(id)) return [...current, id];
+          if (!current.includes(topic)) return [...current, topic];
           else return current;
         });
 
-        keywordsCopy[id] = [];
-        keywordsCopy[id].push(value);
+        keywordsCopy[topic] = [];
+        keywordsCopy[topic].push(value);
         setKeywords(keywordsCopy);
       }
-      if (!keywordsCopy[id].includes(value)) {
-        keywordsCopy[id].push(value);
+      if (!keywordsCopy[topic].includes(value)) {
+        keywordsCopy[topic].push(value);
         setKeywords(keywordsCopy);
       }
     } else if (boolean) {
-      let arr = [...keywordsCopy[id]];
+      let arr = [...keywordsCopy[topic]];
       let index = arr.findIndex((el) => el == value);
       arr.splice(index, 1);
       setKeywords((current) => {
-        return { ...current, [id]: arr };
+        return { ...current, [topic]: arr };
       });
       if (arr.length == 0) {
         let copy = [...topics];
-        let index = copy.findIndex((el) => el == id);
+        let index = copy.findIndex((el) => el == topic);
         copy.splice(index, 1);
         setTopics(copy);
       }
@@ -75,70 +75,79 @@ function FilterProvider({ children }) {
     // }
   }
 
+  const filterFunctions = {
+    name: (agency, name) => agency.name.includes(name),
+    location: (agency, location) =>
+      agency.city.includes(location) || agency.region.includes(location),
+    size: (agency, size) => size.includes(agency.companySize),
+  };
+
   function submitFilterInput() {
-    const copy = { ...listing };
-
-    if (topics.join("") === "city") {
-      const res = copy.agencies.filter((el, idx) => el.city === keywords.city);
-
-      setListing({ agencies: res });
-    }
-
-    if (topics.join("") === "name") {
-      const res = copy.agencies.filter((el, idx) => el.name === keywords.name);
-
-      setListing({ agencies: res });
-    }
-    let count = 0;
-    if (topics.join("") === "size") {
-      let test1 = [];
-      const res = copy.agencies.filter((agency, idx) => {
-        let test = keywords.size.map((key) => {
-          if (key == agency.companySize) {
-            count++;
-            console.log(
-              key == agency.companySize,
-              key,
-              agency.companySize,
-              count
-            );
-            // agency.companySize == key;
-            test1.push(agency);
-          }
-        });
-        // console.log(test);
-        // return test;
+    const keysTofilterBy = Object.keys(keywords);
+    const output = dataSet.agencies.filter((agency) => {
+      return keysTofilterBy.every((key) => {
+        const filterFunction = filterFunctions[key];
+        const filterValue = keywords[key];
+        return filterFunction(agency, filterValue);
       });
-      console.log(test1);
-      console.log(res);
-      //   const res = copy.agencies.filter(
-      //     (el, idx) => el.companySize === keywords.size[0]
-      //   );
-
-      setListing({ agencies: test1 });
-    }
-
-    if (topics.includes("city") && topics.includes("name")) {
-      const res = copy.agencies.filter((el, idx) => {
-        if (el.name === keywords.name && el.city === keywords.city) {
-          return el;
-        }
-      });
-      setListing({ agencies: res });
-    }
-
-    if (topics.includes("city") && topics.includes("size")) {
-      const res = copy.agencies.filter((el, idx) => {
-        if (el.companySize === keywords.size && el.city === keywords.city) {
-          return el;
-        }
-      });
-      setListing({ agencies: res });
-    }
-
-    // setKeywords({});
-    // setTopics([]);
+    });
+    setListing({ agencies: output });
   }
+
+  //   function submitFilterInput() {
+  //     const copy = { ...listing };
+
+  //     if (topics.join("") === "city") {
+  //       const res = copy.agencies.filter((el, idx) => el.city === keywords.city);
+
+  //       setListing({ agencies: res });
+  //     }
+
+  //     if (topics.join("") === "name") {
+  //       const res = copy.agencies.filter((el, idx) => el.name === keywords.name);
+
+  //       setListing({ agencies: res });
+  //     }
+  //     let count = 0;
+  //     if (topics.join("") === "size") {
+  //       let test1 = [];
+  //       const res = copy.agencies.filter((agency, idx) => {
+  //         keywords.size.map((key) => {
+  //           if (key == agency.companySize) {
+  //             test1.push(agency);
+  //           }
+  //         });
+  //       });
+  //       console.log(test1);
+  //       console.log(res);
+  //       //   const res = copy.agencies.filter(
+  //       //     (el, idx) => el.companySize === keywords.size[0]
+  //       //   );
+
+  //       setListing({ agencies: test1 });
+  //     }
+
+  //     if (topics.includes("city") && topics.includes("name")) {
+  //       const res = copy.agencies.filter((el, idx) => {
+  //         if (el.name === keywords.name && el.city === keywords.city) {
+  //           return el;
+  //         }
+  //       });
+  //       setListing({ agencies: res });
+  //     }
+
+  //     if (topics.includes("city") && topics.includes("size")) {
+  //       const res = copy.agencies.filter((el, idx) => {
+  //         if (el.companySize === keywords.size && el.city === keywords.city) {
+  //           return el;
+  //         }
+  //       });
+  //       setListing({ agencies: res });
+  //     }
+
+  //     // setKeywords({});
+  //     // setTopics([]);
+  //   }
   //   console.log("listing", listing);
   return (
     <FilterContext.Provider value={listing}>

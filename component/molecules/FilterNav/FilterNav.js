@@ -24,6 +24,10 @@ const FilterNav = ({ children, variant, ...props }) => {
   function sendFilterInput() {
     filter.submitFilterInput();
   }
+  function sendFilterInputWithOptions() {
+    filter.submitFilterInput();
+    modal.toggleModal();
+  }
 
   function openModal() {
     modal.toggleModal();
@@ -40,16 +44,17 @@ const FilterNav = ({ children, variant, ...props }) => {
     <>
       <ModalFilterOptions>
         <div className={modalStyles.radioContainer}>
-          <RadioCheckbox id="size" value="1-10" />
-          <RadioCheckbox id="size" value="11-50" />
-          <RadioCheckbox id="size" value="51-100" />
-          <RadioCheckbox id="size" value="GT-100" />
+          <p>Company size:</p>
+          <RadioCheckbox type="checkbox" id="size" value="1-10" />
+          <RadioCheckbox type="checkbox" id="size" value="11-50" />
+          <RadioCheckbox type="checkbox" id="size" value="51-100" />
+          <RadioCheckbox type="checkbox" id="size" value="GT-100" />
         </div>
         <Button
           variant="primary"
           size="medium"
-          margin="mgModal-r-l"
-          onClick={sendFilterInput}
+          // margin="mgModal-r-l"
+          onClick={sendFilterInputWithOptions}
         >
           Confirm
         </Button>
@@ -66,9 +71,14 @@ const FilterNav = ({ children, variant, ...props }) => {
           <InputFilterNav
             placeholder="Filter by location..."
             variant="secondary"
-            id="city"
+            id="location"
           />
-          <Button variant="filterOption" size="mediumPlus" theme={darkTheme}>
+          <Button
+            variant="filterOption"
+            size="mediumPlus"
+            theme={darkTheme}
+            onClick={openModal}
+          >
             <FiFilter className={styles.filterPic} /> More Options
           </Button>
           <Button variant="primary" size="small" onClick={sendFilterInput}>
