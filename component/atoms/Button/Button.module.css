@@ -7,6 +7,7 @@
   border: none;
   font-size: 1rem;
   line-height: 1.24em;
+  transition: 0.5s;
 }
 
 .default:hover {

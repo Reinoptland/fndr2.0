@@ -10,7 +10,7 @@ const RadioCheckbox = ({ id, value, ...props }) => {
   return (
     <div className={styles.radioContainer}>
       <label htmlFor={id}>
-        <input {...props} id={id} />
+        <input type="checkbox" {...props} id={id} />
         {id}
       </label>
     </div>

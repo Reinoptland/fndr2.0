@@ -15,46 +15,35 @@ export function useFilter() {
 function FilterProvider({ children }) {
   const [listing, setListing] = useState(dataSet);
   const [keywords, setKeywords] = useState({});
-  const [isChecked, setIsChecked] = useState(false);
 
-  function getFilterCommand(keyword, topic) {
+  function handleTextInput(keyword, topic) {
     setKeywords((current) => {
       return { ...current, [topic]: keyword };
     });
   }
 
-  function handleCheckbox(value, topic, boolean) {
+  function handleCheckbox(value, topic, isChecked) {
     let keywordsCopy = { ...keywords };
-    const keywordsKey = Object.keys(keywords);
-    if (boolean) {
-      if (!keywordsKey.includes(topic)) {
+
+    if (isChecked) {
+      // when the topic is not present: add the topic
+      if (!keywordsCopy[topic]) {
         keywordsCopy[topic] = [];
-        keywordsCopy[topic].push(value);
-        setKeywords(keywordsCopy);
-      } else {
-        keywordsCopy[topic].push(value);
-        setKeywords(keywordsCopy);
       }
-    } else if (!boolean) {
-      if (keywords[topic].length > 1) {
-        console.log("me");
-        let arr = [...keywordsCopy[topic]];
-        let index = arr.findIndex((el) => el == value);
-        arr.splice(index, 1);
-        setKeywords((current) => {
-          return { ...current, [topic]: arr };
-        });
-      } else if (keywords[topic].length <= 1) {
-        // setKeywords((current) => {
-        //   const { topic, ...rest } = current;
-        //   return rest;
-        // });
-        const copy = { ...keywords };
-        delete copy.size;
-        console.log(copy);
-        setKeywords(copy);
+      // add the value that was checked
+      keywordsCopy[topic].push(value);
+    } else {
+      // remove the value that is unchecked from the topic
+      keywordsCopy[topic] = keywordsCopy[topic].filter(
+        (option) => option !== value
+      );
+      // when the topic is not longer present at all: remove it
+      if (keywordsCopy[topic].length === 0) {
+        delete keywordsCopy.size;
       }
     }
+
+    setKeywords(keywordsCopy);
   }
 
   const filterFunctions = {
@@ -82,9 +71,8 @@ function FilterProvider({ children }) {
       <FilterUpdateContext.Provider
         value={{
           submitFilterInput,
-          getFilterCommand,
+          handleTextInput,
           handleCheckbox,
-          isChecked,
           keywords,
         }}
       >
