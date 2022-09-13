@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./FilterNav.module.css";
 import modalStyles from "../Modal/ModalFilterOptions/ModalFilterOptions.module.css";
@@ -7,10 +7,7 @@ import { FiFilter } from "react-icons/fi";
 import { ImSearch } from "react-icons/im";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { classNameBuilderHelper } from "../../../util/functionHelper";
-import {
-  useTheme,
-  useToggle,
-} from "../../../Context/ThemeProvider/ThemeProvider";
+import { useTheme } from "../../../Context/ThemeProvider/ThemeProvider";
 import { useFilter } from "../../../Context/FilterProvider/FilterProvider";
 import { useModal } from "../../../Context/ModalProvider/ModalProvider";
 import ModalFilterOptions from "../Modal/ModalFilterOptions/ModalFilterOptions";
@@ -20,17 +17,18 @@ const FilterNav = ({ children, variant, ...props }) => {
   const darkTheme = useTheme();
   const filter = useFilter();
   const modal = useModal();
-  console.log(modal);
-  function sendFilterInput() {
-    filter.submitFilterInput();
-  }
-  function sendFilterInputWithOptions() {
-    filter.submitFilterInput();
-    modal.toggleModal();
+
+  function sendFilterInput(e) {
+    if (e.target.id == "modal") {
+      filter.submitFilterInput();
+      modal.toggleModal();
+    } else filter.submitFilterInput();
   }
 
-  function openModal() {
-    modal.toggleModal();
+  function getInput(e) {
+    let input = e.target.value;
+    let id = e.target.id;
+    filter.getFilterCommand(input, id);
   }
 
   const BACKGROUND_FIELD = {
@@ -45,16 +43,24 @@ const FilterNav = ({ children, variant, ...props }) => {
       <ModalFilterOptions>
         <div className={modalStyles.radioContainer}>
           <p>Company size:</p>
-          <RadioCheckbox type="checkbox" id="size" value="1-10" />
-          <RadioCheckbox type="checkbox" id="size" value="11-50" />
-          <RadioCheckbox type="checkbox" id="size" value="51-100" />
-          <RadioCheckbox type="checkbox" id="size" value="GT-100" />
+          {["1-10", "11-50", "51-100", "GT-100"].map((option) => (
+            <RadioCheckbox
+              type="checkbox"
+              id={option}
+              key={option}
+              topic="size"
+              onChange={(e, id, topic) => {
+                filter.handleCheckbox(option, "size", e.target.checked);
+              }}
+              checked={filter.keywords?.size?.includes(option) || false}
+            />
+          ))}
         </div>
         <Button
           variant="primary"
           size="medium"
-          // margin="mgModal-r-l"
-          onClick={sendFilterInputWithOptions}
+          onClick={sendFilterInput}
+          id="modal"
         >
           Confirm
         </Button>
@@ -63,21 +69,23 @@ const FilterNav = ({ children, variant, ...props }) => {
         <div className={styles.noMobile} style={BACKGROUND_FIELD}>
           <ImSearch className={styles.searchPic} />
           <InputFilterNav
-            placeholder="Filter by name..."
+            placeholder={"Filter by name..."}
             variant="primary"
             id="name"
+            onChange={getInput}
           />
           <FaMapMarkerAlt className={styles.mapPic} />
           <InputFilterNav
             placeholder="Filter by location..."
             variant="secondary"
             id="location"
+            onChange={getInput}
           />
           <Button
             variant="filterOption"
             size="mediumPlus"
             theme={darkTheme}
-            onClick={openModal}
+            onClick={() => modal.toggleModal()}
           >
             <FiFilter className={styles.filterPic} /> More Options
           </Button>
@@ -93,11 +101,12 @@ const FilterNav = ({ children, variant, ...props }) => {
             id="city"
             placeholder="Filter by city..."
             variant="mobile"
+            onChange={getInput}
           />
           <Button
             variant="fitContent"
             style={{ marginRight: "24px" }}
-            onClick={openModal}
+            onClick={() => modal.toggleModal()}
           >
             <FiFilter className={styles.filterPic} style={BACKGROUND_FILTER} />
           </Button>
